@@ -1,7 +1,7 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import { Box, Container, Heading, Link, Button } from "@chakra-ui/react";
-import { ExternalLinkIcon } from "@chakra-ui/icons";
+import type { NextPage } from 'next'
+import Head from 'next/head'
+import { Box, Container, Heading, Link, Button } from '@chakra-ui/react'
+import { ExternalLinkIcon } from '@chakra-ui/icons'
 
 const Home: NextPage = () => {
   return (
@@ -26,7 +26,7 @@ const Home: NextPage = () => {
         </Link>
       </Container>
     </Box>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
