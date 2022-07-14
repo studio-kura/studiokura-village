@@ -1,13 +1,17 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useAccount, useConnect, useEnsName } from 'wagmi'
+import { useAccount, useConnect, useNetwork } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { Box, Container, Heading, Link, Button, Text } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
+import { useMounted } from '../hooks/useMounted'
+import { getContractAddress } from '../utils/contractAddress'
+import { KuraBalance } from '../components/kuraBalance'
 
 const Home: NextPage = () => {
+  const mounted = useMounted()
+  const { chain } = useNetwork()
   const { address, isConnected } = useAccount()
-  const { data: ensName } = useEnsName({ address })
   const { connect } = useConnect({
     connector: new InjectedConnector()
   })
@@ -25,12 +29,13 @@ const Home: NextPage = () => {
           Welcome to Studio Kura Digital Art Village!
         </Heading>
         <Box mb="1em">
-          {isConnected ? (
-            <Text>Connected to {ensName ?? address}</Text>
+          {mounted && isConnected ? (
+            <Text>Connected to {address}</Text>
           ) : (
             <Button onClick={() => connect()}>Connect Wallet</Button>
           )}
         </Box>
+        <Box mb="1em">{mounted && <KuraBalance></KuraBalance>}</Box>
         <Box>
           <Link
             href="https://opensea.io/collection/studio-kura-digital-art-village"
