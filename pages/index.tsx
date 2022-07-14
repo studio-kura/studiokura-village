@@ -7,10 +7,34 @@ import { ExternalLinkIcon } from '@chakra-ui/icons'
 
 const Home: NextPage = () => {
   const { address, isConnected } = useAccount()
-  const { data: ensName } = useEnsName({ address })
   const { connect } = useConnect({
     connector: new InjectedConnector()
   })
+  const osApiAssetsEndpoint = 'https://api.opensea.io/api/v1/assets'
+  const osRequsestSettings = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  interface OsQueryParams {
+    [key: string]: any
+  }
+  const fetchOpenseaNfts = async () => {
+    const queryAddress: string = address ? address : ''
+    const queryParams: OsQueryParams = {
+      owner: queryAddress,
+      collection: 'studio-kura-digital-art-village',
+      order_direction: 'desc',
+      limit: 20,
+      include_orders: false
+    }
+    let url = new URL(osApiAssetsEndpoint)
+    for (let qp in queryParams) {
+      url.searchParams.append(qp, queryParams[qp])
+    }
+    const osRequest = await fetch(url, osRequsestSettings)
+    console.log(await osRequest.json())
+  }
 
   return (
     <Box>
@@ -26,12 +50,17 @@ const Home: NextPage = () => {
         </Heading>
         <Box mb="1em">
           {isConnected ? (
-            <Text>Connected to {ensName ?? address}</Text>
+            <Text>Connected to {address}</Text>
           ) : (
             <Button onClick={() => connect()}>Connect Wallet</Button>
           )}
         </Box>
-        <Box>
+        <Box mb="1em">
+          <Button colorScheme="blue" onClick={fetchOpenseaNfts}>
+            Load your NFTs
+          </Button>
+        </Box>
+        <Box mb="1em">
           <Link
             href="https://opensea.io/collection/studio-kura-digital-art-village"
             isExternal
