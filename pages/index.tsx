@@ -1,16 +1,15 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useAccount, useConnect, useNetwork } from 'wagmi'
+import { useAccount, useConnect } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { Box, Container, Heading, Link, Button, Text } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { useMounted } from '../hooks/useMounted'
-import { getContractAddress } from '../utils/contractAddress'
 import { KuraBalance } from '../components/kuraBalance'
+import { VillageNftBalance } from '../components/villageNftBalance'
 
 const Home: NextPage = () => {
   const mounted = useMounted()
-  const { chain } = useNetwork()
   const { address, isConnected } = useAccount()
   const { connect } = useConnect({
     connector: new InjectedConnector()
@@ -36,6 +35,7 @@ const Home: NextPage = () => {
           )}
         </Box>
         <Box mb="1em">{mounted && <KuraBalance></KuraBalance>}</Box>
+        <Box mb="1em">{mounted && <VillageNftBalance></VillageNftBalance>}</Box>
         <Box>
           <Link
             href="https://opensea.io/collection/studio-kura-digital-art-village"
