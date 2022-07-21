@@ -14,8 +14,8 @@ export const KuraBalance = () => {
   })
 
   if (!isConnected) return <></>
-  if (isLoading) return <>Fetching balance…</>
-  if (isError) return <>Error fetching balance</>
+  if (isLoading) return <>Fetching $KURA balance…</>
+  if (isError) return <>Error fetching $KURA balance</>
   return (
     <>
       Balance: {data?.formatted} {data?.symbol}
